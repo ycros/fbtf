@@ -26,9 +26,9 @@ class FnCallTest(FoobarTest):
         with self.assertRaises(FoobarException):
             f.foo(bar=5)
 
-    def test_leading_underscore(self):
+    def test_trailing_underscore(self):
         f = Foobar()
-        self.assertEqual("$if('a','b','c')", f._if('a', 'b', 'c').output())
+        self.assertEqual("$if('a','b','c')", f.if_('a', 'b', 'c').output())
 
     def test_chaining(self):
         f = Foobar()

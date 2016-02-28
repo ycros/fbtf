@@ -35,7 +35,7 @@ class Renderer:
 
         if node_type is FnCallNode:
             args_output = [self.render(node) for node in node.children]
-            return "${0}({1})".format(node.name.lstrip('_'), ','.join(args_output))
+            return "${0}({1})".format(node.name.rstrip('_'), ','.join(args_output))
 
         if node_type is StrNode:
             return "'{0}'".format(node.value)

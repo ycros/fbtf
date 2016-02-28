@@ -63,7 +63,7 @@ class FnCallNode(Node):
 
     def output(self):
         args_output = [x.output() for x in self.children]
-        return "${0}({1})".format(self.name.lstrip('_'), ','.join(args_output))
+        return "${0}({1})".format(self.name.rstrip('_'), ','.join(args_output))
 
     def __hash__(self):
         return super().__hash__() ^ hash(self.name)

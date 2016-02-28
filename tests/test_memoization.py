@@ -1,5 +1,3 @@
-import unittest
-
 from foobar import Foobar
 from tests.base import FoobarTest
 

@@ -35,7 +35,6 @@ class TestEquality(FoobarTest):
         self.assertNotEqual(f.memoize(f.foo()), f.memoize(f.bar()))
 
     def test_id(self):
-        f = Foobar()
         self.assertEqual(Foobar.id('hi'), Foobar.id('hi'))
         self.assertNotEqual(Foobar.id('hi'), Foobar.id('ho'))
 
