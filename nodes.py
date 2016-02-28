@@ -3,10 +3,6 @@ from exceptions import FoobarException
 
 
 class Node(metaclass=ABCMeta):
-    @abstractmethod
-    def output(self):
-        pass
-
     def __init__(self):
         self.children = []
 
@@ -37,7 +33,6 @@ class Node(metaclass=ABCMeta):
             result ^= hash(child)
         return result
 
-    @abstractmethod
     def __eq__(self, other):
         if self is other:
             return True
@@ -47,7 +42,11 @@ class Node(metaclass=ABCMeta):
             return False
         if self.children != other.children:
             return False
-        return None
+        return self._eq(other)
+
+    @abstractmethod
+    def _eq(self, other):
+        pass
 
 
 class FnCallNode(Node):
@@ -69,13 +68,8 @@ class FnCallNode(Node):
     def __hash__(self):
         return super().__hash__() ^ hash(self.name)
 
-    def __eq__(self, other):
-        result = super().__eq__(other)
-        if result is not None:
-            return result
-        if other.name != self.name:
-            return False
-        return True
+    def _eq(self, other):
+        return other.name == self.name
 
 
 class StrNode(Node):
@@ -89,10 +83,7 @@ class StrNode(Node):
     def __hash__(self):
         return hash(self.value)
 
-    def __eq__(self, other):
-        result = super().__eq__(other)
-        if result is not None:
-            return result
+    def _eq(self, other):
         return other.value == self.value
 
 
@@ -107,10 +98,7 @@ class NumberNode(Node):
     def __hash__(self):
         return hash(self.num)
 
-    def __eq__(self, other):
-        result = super().__eq__(other)
-        if result is not None:
-            return result
+    def _eq(self, other):
         return other.num == self.num
 
 
@@ -125,10 +113,7 @@ class VarNode(Node):
     def __hash__(self):
         return hash(self.name)
 
-    def __eq__(self, other):
-        result = super().__eq__(other)
-        if result is not None:
-            return result
+    def _eq(self, other):
         return other.name == self.name
 
 
@@ -144,11 +129,20 @@ class MemoizeNode(Node):
     def __hash__(self):
         return super().__hash__()
 
-    def __eq__(self, other):
-        result = super().__eq__(other)
-        if result is not None:
-            return result
+    def _eq(self, other):
         return True
+
+
+class IdentifierNode(Node):
+    def __init__(self, name):
+        super().__init__()
+        self.name = name
+
+    def __hash__(self):
+        return hash(self.name)
+
+    def _eq(self, other):
+        return self.name == other.name
 
 
 def to_node(item):

@@ -34,6 +34,11 @@ class TestEquality(FoobarTest):
         self.assertEqual(f.memoize(f.foo()), f.memoize(f.foo()))
         self.assertNotEqual(f.memoize(f.foo()), f.memoize(f.bar()))
 
+    def test_id(self):
+        f = Foobar()
+        self.assertEqual(Foobar.id('hi'), Foobar.id('hi'))
+        self.assertNotEqual(Foobar.id('hi'), Foobar.id('ho'))
+
     def test_not_node(self):
         with self.assertRaises(FoobarException):
             Foobar.val(1) == 2
