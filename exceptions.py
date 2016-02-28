@@ -1,0 +1,2 @@
+class FoobarException(Exception):
+    pass
