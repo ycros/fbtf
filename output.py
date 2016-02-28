@@ -1,4 +1,9 @@
-from nodes import MemoizeNode, FnCallNode, to_node
+from exceptions import FoobarException
+from nodes import MemoizeNode, FnCallNode, to_node, StrNode, NumberNode, VarNode
+
+
+class FoobarOutputException(FoobarException):
+    pass
 
 
 class MemoizationExpander:
@@ -24,15 +29,26 @@ class MemoizationExpander:
         return node
 
 
-# class Renderer:
-#     def __init__(self):
-#         pass
-#
-#     def render(self, node):
-#         node_type = type(node)
-#         if node_type is FnCallNode()
+class Renderer:
+    def render(self, node):
+        node_type = type(node)
+
+        if node_type is FnCallNode:
+            args_output = [self.render(node) for node in node.children]
+            return "${0}({1})".format(node.name.lstrip('_'), ','.join(args_output))
+
+        if node_type is StrNode:
+            return "'{0}'".format(node.value)
+
+        if node_type is NumberNode:
+            return "{0}".format(self.num)
+
+        if node_type is VarNode:
+            return "%{0}%".format(self.name)
+
+        raise FoobarOutputException('Invalid node type supplied to renderer: {0}'.format(node_type))
 
 
 def output(node):
     node = MemoizationExpander().expand(node)
-    return node.output()
+    return Renderer().render(node)
