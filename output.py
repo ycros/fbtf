@@ -23,7 +23,7 @@ class MemoizationExpander:
             else:
                 self._seen_nodes[node] = self._gen_name_counter
                 self._gen_name_counter += 1
-                return FnCallNode('put', self._gen_name(node), node.child_node)
+                return FnCallNode('put', self._gen_name(node), self.expand(node.child_node))
         else:
             node.children = [self.expand(child) for child in node.children]
         return node

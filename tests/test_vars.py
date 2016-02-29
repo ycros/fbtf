@@ -5,7 +5,7 @@ from tests.base import FoobarTest
 class VarTest(FoobarTest):
 
     def test_var(self):
-        self.assertEqual("%hoo%", Foobar().var('hoo').output())
+        self.assertNodeOutput("%hoo%", Foobar().var('hoo'))
 
     def test_short_syntax(self):
-        self.assertEqual("%moo%", Foobar()['moo'].output())
+        self.assertNodeOutput("%moo%", Foobar()['moo'])

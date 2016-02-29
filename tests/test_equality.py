@@ -41,3 +41,10 @@ class TestEquality(FoobarTest):
     def test_not_node(self):
         with self.assertRaises(FoobarException):
             Foobar.val(1) == 2
+
+    def test_same_node(self):
+        v = Foobar.val('moo')
+        self.assertEqual(v, v)
+
+    def test_different_nodes(self):
+        self.assertNotEqual(Foobar.val('a'), Foobar.var('a'))

@@ -7,19 +7,19 @@ class FnCallTest(FoobarTest):
 
     def test_string_arg(self):
         f = Foobar()
-        self.assertEqual("$len('meep')", f.len("meep").output())
+        self.assertNodeOutput("$len('meep')", f.len("meep"))
 
     def test_blank(self):
         f = Foobar()
-        self.assertEqual("$len()", f.len().output())
+        self.assertNodeOutput("$len()", f.len())
 
     def test_multi_arg(self):
         f = Foobar()
-        self.assertEqual("$moo('awesome',3,4)", f.moo('awesome', 3, 4).output())
+        self.assertNodeOutput("$moo('awesome',3,4)", f.moo('awesome', 3, 4))
 
     def test_nested(self):
         f = Foobar()
-        self.assertEqual("$foo(2,$bar('blah'),7)", f.foo(2, f.bar('blah'), 7).output())
+        self.assertNodeOutput("$foo(2,$bar('blah'),7)", f.foo(2, f.bar('blah'), 7))
 
     def test_keyword_args(self):
         f = Foobar()
@@ -28,12 +28,12 @@ class FnCallTest(FoobarTest):
 
     def test_trailing_underscore(self):
         f = Foobar()
-        self.assertEqual("$if('a','b','c')", f.if_('a', 'b', 'c').output())
+        self.assertNodeOutput("$if('a','b','c')", f.if_('a', 'b', 'c'))
 
     def test_chaining(self):
         f = Foobar()
-        self.assertEqual("$left(%path%,2)", f['path'].left(2).output())
+        self.assertNodeOutput("$left(%path%,2)", f['path'].left(2))
 
     def test_chaining2(self):
         f = Foobar()
-        self.assertEqual("$right($left(%path%,$len(%path%)),2)", f['path'].left(f['path'].len()).right(2).output())
+        self.assertNodeOutput("$right($left(%path%,$len(%path%)),2)", f['path'].left(f['path'].len()).right(2))

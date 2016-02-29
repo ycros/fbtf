@@ -61,10 +61,6 @@ class FnCallNode(Node):
         [self._add_child(to_node(arg)) for arg in args]
         return self
 
-    def output(self):
-        args_output = [x.output() for x in self.children]
-        return "${0}({1})".format(self.name.rstrip('_'), ','.join(args_output))
-
     def __hash__(self):
         return super().__hash__() ^ hash(self.name)
 
@@ -76,9 +72,6 @@ class StrNode(Node):
     def __init__(self, value):
         super().__init__()
         self.value = value
-
-    def output(self):
-        return "'{0}'".format(self.value)
 
     def __hash__(self):
         return hash(self.value)
@@ -92,9 +85,6 @@ class NumberNode(Node):
         super().__init__()
         self.num = num
 
-    def output(self):
-        return "{0}".format(self.num)
-
     def __hash__(self):
         return hash(self.num)
 
@@ -106,9 +96,6 @@ class VarNode(Node):
     def __init__(self, name):
         super().__init__()
         self.name = name
-
-    def output(self):
-        return "%{0}%".format(self.name)
 
     def __hash__(self):
         return hash(self.name)
@@ -122,9 +109,6 @@ class MemoizeNode(Node):
         super().__init__()
         self.child_node = child_node
         self._add_child(child_node)
-
-    def output(self):
-        raise FoobarException()
 
     def __hash__(self):
         return super().__hash__()
