@@ -19,6 +19,8 @@ class Node(metaclass=ABCMeta):
         return FnCallNode('div')(self, other)
 
     def __getattr__(self, item):
+        if item.startswith('__'):
+            raise AttributeError
         return FnCallNode(item, self)
 
     def _add_child(self, child_node):
@@ -28,9 +30,9 @@ class Node(metaclass=ABCMeta):
 
     @abstractmethod
     def __hash__(self):
-        result = super().__hash__()
-        for child in self.children:
-            result ^= hash(child)
+        result = hash(self.__class__)
+        for i, child in enumerate(self.children):
+            result ^= i + hash(child)  # take child order into account
         return result
 
     def __eq__(self, other):
@@ -74,7 +76,7 @@ class StrNode(Node):
         self.value = value
 
     def __hash__(self):
-        return hash(self.value)
+        return super().__hash__() ^ hash(self.value)
 
     def _eq(self, other):
         return other.value == self.value
@@ -86,7 +88,7 @@ class NumberNode(Node):
         self.num = num
 
     def __hash__(self):
-        return hash(self.num)
+        return super().__hash__() ^ hash(self.num)
 
     def _eq(self, other):
         return other.num == self.num
@@ -98,7 +100,7 @@ class VarNode(Node):
         self.name = name
 
     def __hash__(self):
-        return hash(self.name)
+        return super().__hash__() ^ hash(self.name)
 
     def _eq(self, other):
         return other.name == self.name

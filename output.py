@@ -1,3 +1,5 @@
+from copy import copy
+
 from exceptions import FoobarException
 from nodes import MemoizeNode, FnCallNode, StrNode, NumberNode, VarNode, IdentifierNode
 
@@ -17,6 +19,7 @@ class MemoizationExpander:
         return IdentifierNode('v{0}'.format(counter))
 
     def expand(self, node):
+        node = copy(node)
         if isinstance(node, MemoizeNode):
             if node in self._seen_nodes:
                 return FnCallNode('get', self._gen_name(node))
@@ -24,9 +27,52 @@ class MemoizationExpander:
                 self._seen_nodes[node] = self._gen_name_counter
                 self._gen_name_counter += 1
                 return FnCallNode('put', self._gen_name(node), self.expand(node.child_node))
-        else:
-            node.children = [self.expand(child) for child in node.children]
+        node.children = [self.expand(child) for child in node.children]
         return node
+
+
+class Optimizer:
+    def __init__(self):
+        self._gen_name_counter = 0
+        self._node_count = {}
+        self._pass2_seen_nodes = {}
+
+    @staticmethod
+    def _gen_name(counter):
+        return IdentifierNode('o{0}'.format(counter))
+
+    def optimize(self, node):
+        self._pass1(node)
+        self._pass2(node)
+
+    def _pass1(self, node):
+        try:
+            self._node_count[node] += 1
+        except KeyError:
+            self._node_count[node] = 1
+
+        for child in node.children:
+            self._pass1(child)
+
+    def _pass2(self, node):
+        node = copy(node)
+        seen_val = self._node_count[node]
+        if self._should_optimize(node, seen_val):
+            try:
+                counter = self._pass2_seen_nodes[node]
+                return FnCallNode('get', self._gen_name(counter))
+            except KeyError:
+                self._gen_name_counter += 1
+                self._pass2_seen_nodes[node] = self._gen_name_counter
+                return FnCallNode('put', self._gen_name(self._gen_name_counter), self._pass2(node))
+        node.children = [self._pass2(child) for child in node.children]
+        return node
+
+    @staticmethod
+    def _should_optimize(node, seen_val):
+        if seen_val > 2:
+            # TODO: compare estimated output lengths?
+            return True
 
 
 class Renderer:
