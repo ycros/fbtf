@@ -50,6 +50,10 @@ class Node(metaclass=ABCMeta):
     def _eq(self, other):
         pass
 
+    @abstractmethod
+    def __repr__(self):
+        pass
+
 
 class FnCallNode(Node):
     def __init__(self, name, *args):
@@ -69,6 +73,9 @@ class FnCallNode(Node):
     def _eq(self, other):
         return other.name == self.name
 
+    def __repr__(self):
+        return "{0}({1})".format(self.name, ', '.join(repr(x) for x in self.children))
+
 
 class StrNode(Node):
     def __init__(self, value):
@@ -80,6 +87,9 @@ class StrNode(Node):
 
     def _eq(self, other):
         return other.value == self.value
+
+    def __repr__(self):
+        return "'{0}'".format(self.__name__)
 
 
 class NumberNode(Node):
@@ -93,6 +103,9 @@ class NumberNode(Node):
     def _eq(self, other):
         return other.num == self.num
 
+    def __repr__(self):
+        return "{0}".format(self.num)
+
 
 class VarNode(Node):
     def __init__(self, name):
@@ -104,6 +117,9 @@ class VarNode(Node):
 
     def _eq(self, other):
         return other.name == self.name
+
+    def __repr__(self):
+        return "%{0}%".format(self.name)
 
 
 class MemoizeNode(Node):
@@ -118,6 +134,9 @@ class MemoizeNode(Node):
     def _eq(self, other):
         return True
 
+    def __repr__(self):
+        return "memo({0})".format(self.child_node)
+
 
 class IdentifierNode(Node):
     def __init__(self, name):
@@ -129,6 +148,9 @@ class IdentifierNode(Node):
 
     def _eq(self, other):
         return self.name == other.name
+
+    def __repr__(self):
+        return "{0}".format(self.name)
 
 
 def to_node(item):
