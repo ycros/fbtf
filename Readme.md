@@ -1,4 +1,4 @@
-# foobar2000 Title Formatting Meta-Language
+# foobar2000 "Title Formatting" Meta-Language
 
 This odd-sounding project is an implementation of a language in Python, which compiles into
 [foobar2000 title formatting scripts](http://wiki.hydrogenaud.io/index.php?title=Foobar2000:Title_Formatting_Reference).
