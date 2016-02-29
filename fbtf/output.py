@@ -1,7 +1,7 @@
 from copy import copy
 
-from exceptions import FoobarException
-from nodes import MemoizeNode, FnCallNode, StrNode, NumberNode, VarNode, IdentifierNode
+from .exceptions import FoobarException
+from .nodes import MemoizeNode, FnCallNode, StrNode, NumberNode, VarNode, IdentifierNode
 
 
 class FoobarOutputException(FoobarException):

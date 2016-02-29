@@ -1,5 +1,4 @@
-from foobar import Foobar
-from output import output
+from fbtf import output, Foobar
 
 f = Foobar()
 

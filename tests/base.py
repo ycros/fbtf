@@ -1,7 +1,7 @@
 import unittest
 
-from foobar import Foobar
-from output import output
+from fbtf.output import output
+from fbtf import Foobar
 
 
 class FoobarTest(unittest.TestCase):

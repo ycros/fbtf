@@ -1,6 +1,6 @@
 from copy import copy
 
-from nodes import FnCallNode, StrNode, NumberNode, VarNode, IdentifierNode, MemoizeNode
+from fbtf.nodes import FnCallNode, StrNode, NumberNode, VarNode, IdentifierNode, MemoizeNode
 from tests.base import FoobarTest
 
 

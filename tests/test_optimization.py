@@ -1,4 +1,4 @@
-from output import Optimizer
+from fbtf.output import Optimizer
 from tests.base import FoobarTest
 
 

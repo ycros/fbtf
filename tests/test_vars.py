@@ -1,4 +1,4 @@
-from foobar import Foobar
+from fbtf import Foobar
 from tests.base import FoobarTest
 
 

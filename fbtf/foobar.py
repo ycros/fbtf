@@ -1,4 +1,4 @@
-from nodes import FnCallNode, VarNode, MemoizeNode, to_node, IdentifierNode
+from .nodes import FnCallNode, VarNode, MemoizeNode, to_node, IdentifierNode
 
 
 class Foobar:

@@ -1,5 +1,5 @@
 from abc import ABCMeta, abstractmethod
-from exceptions import FoobarException
+from .exceptions import FoobarException
 
 
 class Node(metaclass=ABCMeta):

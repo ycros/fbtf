@@ -1,5 +1,5 @@
-from exceptions import FoobarException
-from foobar import Foobar
+from fbtf.exceptions import FoobarException
+from fbtf import Foobar
 from tests.base import FoobarTest
 
 
